@@ -1,0 +1,44 @@
+{
+  "executable": "ElectronSimple",
+  "splashscreen": {
+    "imageFile": ""
+  },
+  "name": "ElectronSimple",
+  "author": "",
+  "singleInstance": false,
+  "environment": "Production",
+  "build": {
+    "appId": "com.ElectronSimple.app",
+    "productName": "ElectronSimple",
+    "copyright": "Copyright © 2020",
+    "buildVersion": "1.0.0",
+    "compression": "maximum",
+    "win": {
+      "icon": "",
+      "publish": [
+        {
+          "provider": "generic",
+          "url": "http://localhost:8090"
+        }
+      ]
+    },
+    "directories": {
+      "output": "../../../bin/Desktop"
+    },
+    "extraResources": [
+      {
+        "from": "./bin",
+        "to": "bin",
+        "filter": [ "**/*" ]
+      }
+    ],
+    "files": [
+      {
+        "from": "./ElectronHostHook/node_modules",
+        "to": "ElectronHostHook/node_modules",
+        "filter": [ "**/*" ]
+      },
+      "**/*"
+    ]
+  }
+}
