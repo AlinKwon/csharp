@@ -11,5 +11,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="electronnet.api" Version="13.5.1" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.0.0" />
   </ItemGroup>
 </Project>
