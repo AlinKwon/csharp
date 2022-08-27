@@ -20,6 +20,8 @@
 
 <button id="send" type="button" class="btn btn-primary">Send Message</button>
 
+<button id="serversend" type="button" class="btn btn-primary">server Send Message</button>
+
 <hr>
 
 <ul id="messageList"></ul>
@@ -28,6 +30,36 @@
 {
     <script src="~/lib/signalr/signalr.js"></script>
     <script type="text/javascript">
+        function ajax_call({
+            url,
+            done,
+            fault = null,
+            type = 'GET',
+            data = null,
+            contentType = 'application/x-www-form-urlencoded; charset=UTF-8'
+            }) {
+            $.ajax({
+                type:type,
+                url:url,
+                data: data,
+                contentType : contentType,
+                //beforeSend: function (xhr) {
+                //    xhr.setRequestHeader("XSRF-TOKEN",
+                //        $('input:hidden[name="__RequestVerificationToken"]').val());
+                //},
+            }).done(function(data, textStatus, xhr){
+                if(done){
+                    done(data,textStatus,xhr);
+                }
+            }).fail(function(data, textStatus, errorThrown){
+                if(fault){
+                    fault(data,textStatus,errorThrown);
+                }
+            }) ;
+        } ;
+
+
+
         $(function(){
             const connection = new signalR.HubConnectionBuilder()
                 .withUrl("/chathub")
@@ -43,14 +75,24 @@
             }) ;
 
             $('#send').click( async () =>{
-                const user = $('#userInput').val();
-                const message = $('#messageInput').val();
-
                 try {
-                    await connection.invoke('SendMessage', user, message);
+                    await connection.invoke('SendMessage', 
+                            $('#userInput').val(), 
+                            $('#messageInput').val()
+                        );
                 } catch (err) {
                     console.error(err) ;
                 }
+            }) ;
+
+            $('#serversend').click( async () =>{
+                ajax_call({
+                    type: "GET",
+                    url: '/?handler=Send',
+                    done: function (data, textStatus, xhr) {
+
+                    },
+                });
             }) ;
 
             async function start(){
